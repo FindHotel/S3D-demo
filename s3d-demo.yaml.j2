@@ -1,0 +1,45 @@
+---
+s3d-demo:
+    description:
+        S3D Demo, push data to DynamoDB from S3
+
+    tags:
+        "findhotel:service": "s3d-demo"
+        "findhotel:stage": "{{stage}}"
+
+    layers:
+        - layer: vpc
+          layer_type: vpc
+          description: VPC to contain the AWS Batch compute environment
+
+        - layer: cenv
+          layer_type: batch
+          description: AWS Batch compute environment
+          subnet_ids:
+            - $layer_output:
+                layer_name: vpc
+                output_name: PublicSubnet1
+          vpc_id:
+            $layer_output:
+                layer_name: vpc
+                output_name: VpcId
+
+        # Create the DynamoDB table
+        - layer: table
+          layer_type: dynamodb
+          description: DynamoDB table with an API GTW proxy
+          has_public_api: yes
+
+        # Serves the mapping with a REST API
+        - layer: push
+          layer_type: batch-job
+          docker_image: findhotel/s3d
+          memory: 2000
+          vcpus: 2
+          s3_trigger_prefix: 'input/'
+          iam_role_policies:
+              - {% include "policies/s3-read.json" %}
+          job_queue:
+              $layer:
+                  layer_name: cenv
+                  output_name: DefaultJobQueueArn
