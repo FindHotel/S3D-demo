@@ -39,7 +39,16 @@ s3d-demo:
           s3_trigger_prefix: 'input/'
           iam_role_policies:
               - {% include "policies/s3-read.json" %}
+              - {% include "policies/dynamodb-write.json" %}
           job_queue:
               $layer:
                   layer_name: cenv
                   output_name: DefaultJobQueueArn
+          environment:
+              WRITE_CAPACITY_DURING_LOAD: 50
+              WRITE_CAPACITY: 5
+              READ_CAPACITY: 5
+              TABLE_NAME:
+                  $layer:
+                      layer_name: table
+                      output_name: TableName

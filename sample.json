@@ -1,0 +1,4 @@
+{"key": {"S":"1"}, "value": {"S": { "BKS":1234 } },"expires": {"N": 1000}}
+{"key": {"S":"2"}, "value": {"S": { "BKS":5678} },"expires": {"N": 1000}}
+{"key": {"S":"3"}, "value": {"S": { "BKS":9101} },"expires": {"N": 1000}}
+{"key": {"S":"4"}, "value": {"S": { "BKS":1213} },"expires": {"N": 1000}}

@@ -2,5 +2,5 @@ awscli
 humilis>=1.5.2
 humilis-vpc
 humilis-batch
-humilis-batch-job>=0.1.5
-humilis-dynamodb
+humilis-batch-job>=0.1.6
+humilis-dynamodb>=0.0.2
